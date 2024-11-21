@@ -2,26 +2,24 @@ Welcome to my project!
 
 Here you will find a Soccer Team Simulator that allows you to create a team and begin your journey in the super league!
 
-![Screenshot_of_first_part_of_code.png](../../../Pictures/Screenshot_of_first_part_of_code.png)
+![](C:\Users\Juan Monarrez\Documents\GitHub\Capstone-Project\Images_for_project\begin_code.png)
 
-First:
 You will input your name and the name of the team you created using "City", "Name" format.
 This helps to create a user-friendly intro and will begin your journey to glory!
 
-![regular season code.png](../../../Pictures/regular%20season%20code.png)
+![](C:\Users\Juan Monarrez\Documents\GitHub\Capstone-Project\Images_for_project\regular_season_code.png)
 
-Second:
 The program will simulate the regular season standings and print a table.
 The table will be organized with the first tier league rankings according to overall record and goal difference
 Following this the program will simulate the playoffs!
 
-![playoffs code.png](../../../Pictures/playoffs%20code.png)
+![](C:\Users\Juan Monarrez\Documents\GitHub\Capstone-Project\Images_for_project\playoffs_code.png)
 
 The following is the code used to simulate the playoffs following the regular season.
 The code prints off the results of the Quarter-Finals, Semi-Finals, and Final match as well as the winner of the league
 according to the playoffs.
 
-![Division Two part of code.png](../../../Pictures/Division%20Two%20part%20of%20code.png)
+![](C:\Users\Juan Monarrez\Documents\GitHub\Capstone-Project\Images_for_project\Division_Two_part_of_code.png)
 
 Afterward the code simulates the second tier league rankings according to overall record and goal difference
 This will also determine who will be promoted/ relegated.
@@ -31,7 +29,7 @@ the first division.
 Relegation will occur to the teams who finish as the bottom 3 in the first division, those teams will be dropped down to
 the second division and hope to be promoted the following season.
 
-![final part of code.png](../../../Pictures/final%20part%20of%20code.png)
+![](C:\Users\Juan Monarrez\Documents\GitHub\Capstone-Project\Images_for_project\final_part_of_code.png)
 
 Once all of that has been completed the code will then ask you if you would like to continue!
 Doing so will advance the program into the next season with the updated year and table while still using the same team
