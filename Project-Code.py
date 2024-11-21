@@ -148,15 +148,15 @@ def main():
              Team("Charlotte Mountaineers"), Team("San Diego Speedboats"), Team("D.C. Colonels"),
              Team("Philadelphia Freedom"), Team("Houston Hurricanes"), Team("Jacksonville Sharks"),
              Team("Alaska Glaciers"), Team("Las Vegas Gamblers"), Team("Salt Lake City Cougars"),
-             Team("Albuquerque Indians"), Team("Hawai'i Volcanoes"), Team("Vancouver Whalers"),
+             Team("Albuquerque Indians"), Team("Hawaii Volcanoes"), Team("Vancouver Whalers"),
              Team("Toronto Lumberjacks"), Team(your_team)]
 
-    division_two_teams = [Team("Austin Roughriders"), Team("New York Metros"), Team("Tampa Bay Speedsters"),
+    division_two_teams = [Team("Austin Rough riders"), Team("New York Metros"), Team("Tampa Bay Speedsters"),
                           Team("Montreal Underground"), Team("Connecticut Robins"), Team("San Diego Surfers"),
                           Team("Green Bay Lake Monsters"), Team("San Antonio Cavalry"), Team("New Orleans Voodoo"),
                           Team("Memphis Jazz"), Team("Nashville Rockstars"), Team("Cincinnati Gorillas"),
                           Team("Indianapolis Rush"), Team("Buffalo Waterfalls"), Team("Boston Fishermen"),
-                          Team("Cleveland Community"), Team("Manhattan Prarie Dogs"), Team("Des Moine Shockers"),
+                          Team("Cleveland Community"), Team("Manhattan Prairie Dogs"), Team("Des Moine Shockers"),
                           Team("Denver Altitude"), Team("Montana Stallions")]
 
     year = 2024
@@ -192,12 +192,12 @@ def main():
         quarter_finals_winner3 = playoff_match(quarter_finalists[2], quarter_finalists[5])
         quarter_finals_winner4 = playoff_match(quarter_finalists[3], quarter_finalists[4])
 
-        # The semi-finalists are the winners of the 4 quarter final games.
+        # The semi-finalists are the winners of the 4 quarter-final games.
         semi_finalists = [quarter_finals_winner1, quarter_finals_winner2, quarter_finals_winner3,
                                  quarter_finals_winner4]
 
         # Semi-finals.
-        # The trend of highest ranked team playing the lower ranekd team does not apply here as the quarter-finals
+        # The trend of highest ranked team playing the lower ranked team does not apply here as the quarter-finals
         # determine a bracket that shapes the playoffs in its entirety.
         print("\nSemi-Finals:")
         semi_final_winner1 = playoff_match(semi_finalists[0], semi_finalists[3])
@@ -236,7 +236,7 @@ def main():
     # Future additions can add home games for the highest seeds and the final location taking place at any random city
     # from the lists of teams that should not be repeated for at least 5 years to create variety.
 
-        print("\nCongrats on your inaugral season!")
+        print("\nCongrats on your inaugural season!")
         print("Ready for next season?")
 
         continue_game =input("Do you want to play another season? (yes,no): ")
