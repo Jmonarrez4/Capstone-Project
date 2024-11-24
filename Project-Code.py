@@ -145,7 +145,7 @@ def main():
              Team("Dallas Stampede"), Team("Oklahoma City Cyclones"), Team("New York Skyscrapers"),
              Team("St. Louis Steamboats"), Team("Minnesota Blizzard"), Team("Washington Storm"),
              Team("Milwaukee Wolves"), Team("Oregon Pines"), Team("Orlando Dolphins"),
-             Team("Charlotte Mountaineers"), Team("San Diego Speedboats"), Team("D.C. Colonels"),
+             Team("Charlotte Mountaineers"), Team("Puerto Rico Beach Balls"), Team("D.C. Colonels"),
              Team("Philadelphia Freedom"), Team("Houston Hurricanes"), Team("Jacksonville Sharks"),
              Team("Alaska Glaciers"), Team("Las Vegas Gamblers"), Team("Salt Lake City Cougars"),
              Team("Albuquerque Indians"), Team("Hawaii Volcanoes"), Team("Vancouver Whalers"),
