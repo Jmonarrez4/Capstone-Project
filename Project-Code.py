@@ -26,6 +26,41 @@ class Team:
     def __repr__(self):
         return f"{self.name}: {self.points} pts, GD: {self.goal_difference}, W: {self.wins}, L: {self.losses}, T: {self.ties}"
 
+# Define PostGameOptions to add more variety to the user interface
+class PostGameOptions:
+    def __init__(self, user, team):
+        self.user = user
+        self.team = team
+
+    def display_options(self):
+        self.show_team_record()
+        print(f"\n{self.user}, choose an option to influence {self.team.name}:")
+        print("1. Change Tactics")
+        print("2. Adjust Player Training")
+        print("3. Boost Team Morale")
+
+    def execute_option(self, choice):
+        if choice == 1:
+            self.change_tactics()
+        elif choice == 2:
+            self.adjust_training()
+        elif choice == 3:
+            self.boost_morale()
+        else:
+            print("Invalid choice. Please select again.")
+
+    def show_team_record(self):
+        print(f"Current record for {self.team.name}:")
+        print(f"Wins: {self.team.wins}, Losses: {self.team.losses}, Ties: {self.team.ties}, Points: {self.team.points}, Goal Difference: {self.team.goal_difference}")
+
+    def change_tactics(self):
+        print("You have chosen to change tactics.")
+
+    def adjust_training(self):
+        print("You have chosen to adjust player training")
+
+    def boost_morale(self):
+        print("You have chosen to boost team morale")
 # This is the function used to simulate the regular season.
 # Every team will play every other team at least once for a total of 31 games per team.
 # Using the average min/ max of real-life games (being 0, 5) to generate a random score for the games.
@@ -117,9 +152,10 @@ def playoff_match(team1, team2):
         winner = extra_time(team1, team2)
         print(f"The match between {team1.name} and {team2.name} ended in a tie after regular time. Winner after "
               f"extra time or penalties: {winner.name}")
-        return winner
 
-def simulate_season(teams):
+    return winner
+
+def simulate_season(teams, user, user_team_name):
     # Simulate the regular season
     for team in teams:
         team.reset()
@@ -127,15 +163,21 @@ def simulate_season(teams):
     for i in range(len(teams)):
         for j in range(i + 1, len(teams)):
             play_match(teams[i], teams[j])
+            # Add post-game options for the user's team
+            if teams[i].name == user_team_name or teams[j].name == user_team_name:
+                post_game = PostGameOptions(user, teams[i] if teams[i].name == user_team_name else teams[j])
+                post_game.display_options()
+                choice = int(input("Enter your choice: "))
+                post_game.execute_option(choice)
 
 def main():
     # Asks the user for their name.
-    print("Hello,", input("What is your name?"))
+    user = input("What is your name? ")
+    user_team_name = input("What is your team name? ")
 
     # Creates a text that immerses the user into the program
     print("Welcome to Soccer Club Simulator!")
     print("\nMay your team find glory in the Super League!")
-    your_team = input("What is your team name?:")
 
     # Names of teams in league.
     # Allows user to create a team and add them to the league in hopes of winning it all.
@@ -149,7 +191,7 @@ def main():
              Team("Philadelphia Freedom"), Team("Houston Hurricanes"), Team("Jacksonville Sharks"),
              Team("Alaska Glaciers"), Team("Las Vegas Gamblers"), Team("Salt Lake City Cougars"),
              Team("Albuquerque Indians"), Team("Hawaii Volcanoes"), Team("Vancouver Whalers"),
-             Team("Toronto Lumberjacks"), Team(your_team)]
+             Team("Toronto Lumberjacks"), Team(user_team_name)]
 
     division_two_teams = [Team("Austin Rough riders"), Team("New York Metros"), Team("Tampa Bay Speedsters"),
                           Team("Montreal Underground"), Team("Connecticut Robins"), Team("San Diego Surfers"),
@@ -167,7 +209,7 @@ def main():
         print(f"Welcome to the {year} Season!")
 
         print("\nSuper League Season Standings:")
-        simulate_season(teams)
+        simulate_season(teams, user, user_team_name)
         position = 1
         for team in sorted(teams, key=lambda x: (x.points, x.goal_difference), reverse=True):
             print(position, team)
@@ -210,7 +252,7 @@ def main():
         print(f"\nThe champion of the season is the: {champion.name}!")
 
         print("\nDivision Two season standings:")
-        simulate_season(division_two_teams)
+        simulate_season(division_two_teams, user, user_team_name)
         position = 1
         for team in sorted(division_two_teams, key=lambda x: (x.points, x.goal_difference), reverse=True):
             print(position, team)
