@@ -13,6 +13,9 @@ class Team:
         self.wins = 0
         self.losses = 0
         self.ties = 0
+        self.current_tactic = 'balanced' # Default tactic
+        self.training_focus = None # Default training focus
+        self.morale_boost = 'neutral' # Default morale boost
 
     def reset(self):
         self.points = 0
@@ -20,6 +23,9 @@ class Team:
         self.wins = 0
         self.losses = 0
         self.ties = 0
+        self.current_tactic = 'balanced' # Reset tactic
+        self.training_focus = None # Reset training focus
+        self.morale_boost = 'neutral' # Reset morale boost
 
     # This is how the final standings will apper to the user.
     # The order is name: points, goal difference, wins, losses, ties.
@@ -38,6 +44,7 @@ class PostGameOptions:
         print("1. Change Tactics")
         print("2. Adjust Player Training")
         print("3. Boost Team Morale")
+        print("4. Don't Change Anything")
 
     def execute_option(self, choice):
         if choice == 1:
@@ -46,29 +53,94 @@ class PostGameOptions:
             self.adjust_training()
         elif choice == 3:
             self.boost_morale()
+        elif choice == 4:
+            self.advance_schedule()
         else:
             print("Invalid choice. Please select again.")
 
     def show_team_record(self):
         print(f"Current record for {self.team.name}:")
         print(f"Wins: {self.team.wins}, Losses: {self.team.losses}, Ties: {self.team.ties}, Points: {self.team.points}, Goal Difference: {self.team.goal_difference}")
+        print(f"Current tactic is {self.team.current_tactic}")
+        print(f"Current training focus is {self.team.training_focus}")
+        print(f"Current morale booster is {self.team.morale_boost}")
 
     def change_tactics(self):
         print("You have chosen to change tactics.")
+        tactic_option = input("What tactic would you like to implement?: (offensive, balanced, defensive)")
+        if tactic_option in ['offensive', 'balanced', 'defensive']:
+            self.team.current_tactic = tactic_option
+            print(f"Your team will play {tactic_option} next game!")
+        else:
+            print("You have not chosen a valid option, choose again")
 
     def adjust_training(self):
         print("You have chosen to adjust player training")
+        practice_option = input("What would you like to change in practice?: (offense, defense)")
+        if practice_option in ['offense', 'defense']:
+            self.team.training_focus = practice_option
+            print(f"Your team will focus on {practice_option} in training!")
+        else:
+            print("You have not chosen a valid option, choose again")
 
     def boost_morale(self):
         print("You have chosen to boost team morale")
+        morale_booster = input("How will you boost team morale?: (positive, negative)")
+        if morale_booster in ['positive', 'negative']:
+            self.team.morale_boost = morale_booster
+            print(f"Your team morale has been {morale_booster}ly influenced!")
+        else:
+            print("You have not chosen a valid option, choose again")
+
+    def advance_schedule(self):
+        print("You have chosen not to change anything! Moving on to next week")
+
 # This is the function used to simulate the regular season.
 # Every team will play every other team at least once for a total of 31 games per team.
 # Using the average min/ max of real-life games (being 0, 5) to generate a random score for the games.
 def play_match(team1, team2):
-    # Simulate a match with random scores
-    team1_goals = rn.randint(0, 5)
-    team2_goals = rn.randint(0, 5)
+    # Adjust goal range based on tactics
+    if team1.current_tactic == 'offensive':
+        team1_goal_range = (1, 6)
+    elif team1.current_tactic == 'defensive':
+        team1_goal_range = (0, 3)
+    else: # balanced
+        team1_goal_range = (0, 5)
 
+    if team2.current_tactic == 'offensive':
+        team2_goal_range = (1, 6)
+    elif team2.current_tactic == 'defensive':
+        team2_goal_range = (0, 3)
+    else: # balanced
+        team2_goal_range = (0, 5)
+
+    # Adjust goals based on training focus
+    if team1.training_focus == 'offense':
+        team1_goals = rn.randint(team1_goal_range[0], team1_goal_range[1] + 1) # Increase upper limit for offense
+    else: # Default or defensive training focus
+        team1_goals = rn.randint(*team1_goal_range)
+
+    if team2.training_focus == 'offense':
+        team2_goals = rn.randint(team2_goal_range[0], team2_goal_range[1] + 1)
+    else:
+        team2_goals = rn.randint(*team2_goal_range)
+
+    # Adjust goals based on morale boost
+    if team1.morale_boost == 'positive':
+        team1_goals += 1 # Increase goals due to positive morale
+    elif team1.morale_boost == 'negative':
+        team1_goals -= 1 # Decrease goals due to negative morale
+
+    if team2.morale_boost == 'positive':
+        team2_goals += 1
+    elif team2.morale_boost == 'negative':
+        team2_goals -= 1
+
+    # Ensure goals are within valid range
+    team1_goals = max(0, team1_goals)
+    team2_goals = max(0, team2_goals)
+
+    # Simulate a match with adjusted scores
     if team1_goals > team2_goals:
         team1.points += 3
         team1.wins += 1
@@ -279,6 +351,7 @@ def main():
     # from the lists of teams that should not be repeated for at least 5 years to create variety.
 
         print("\nCongrats on your inaugural season!")
+        print(f"Your team finished {position, user_team_name}!")
         print("Ready for next season?")
 
         continue_game =input("Do you want to play another season? (yes,no): ")
