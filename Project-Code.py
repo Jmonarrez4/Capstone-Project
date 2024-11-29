@@ -92,13 +92,25 @@ class PostGameOptions:
         else:
             print("You have not chosen a valid option, choose again")
 
-    def advance_schedule(self):
+    @staticmethod
+    def advance_schedule():
         print("You have chosen not to change anything! Moving on to next week")
 
 # This is the function used to simulate the regular season.
 # Every team will play every other team at least once for a total of 31 games per team.
 # Using the average min/ max of real-life games (being 0, 5) to generate a random score for the games.
-def play_match(team1, team2):
+def play_match(team1, team2, game_number=1):
+
+    if game_number % 4 == 0: # Resets tactics after 4 games
+        team1.current_tactic = 'balanced'
+        team2.current_tactic = 'balanced'
+
+    if game_number % 2 == 0: # Resets training focus and morale booster after 2 games
+        team1.training_focus = None
+        team2.training_focus = None
+        team1.morale_boost = 'neutral'
+        team2.morale_boost = 'neutral'
+
     # Adjust goal range based on tactics
     if team1.current_tactic == 'offensive':
         team1_goal_range = (1, 6)
@@ -164,6 +176,8 @@ def play_match(team1, team2):
     # Goal difference is calculated by taking the goals for and subtracting the goals against.
     team1.goal_difference += team1_goals - team2_goals
     team2.goal_difference += team2_goals - team1_goals
+
+    game_number += 1
 
     return team1_goals, team2_goals, winner
 
@@ -351,7 +365,6 @@ def main():
     # from the lists of teams that should not be repeated for at least 5 years to create variety.
 
         print("\nCongrats on your inaugural season!")
-        print(f"Your team finished {position, user_team_name}!")
         print("Ready for next season?")
 
         continue_game =input("Do you want to play another season? (yes,no): ")
