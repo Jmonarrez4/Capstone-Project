@@ -1,3 +1,6 @@
+"""This is a Soccer Team Simulator that implements random scores, tactics, training methods,
+and morale to help the user find success! This program includes a promotion/relegation system as well."""
+
 # Import the random library to use in the code.
 # Nicknaming rn to make calling functions of the library easy.
 import random as rn
@@ -17,7 +20,7 @@ class Team:
         self.training_focus = None # Default training focus
         self.morale_boost = 'neutral' # Default morale boost
 
-    def reset(self):
+    def reset(self): # Resets the record, and team attributes after each season.
         self.points = 0
         self.goal_difference = 0
         self.wins = 0
@@ -30,15 +33,16 @@ class Team:
     # This is how the final standings will apper to the user.
     # The order is name: points, goal difference, wins, losses, ties.
     def __repr__(self):
-        return f"{self.name}: {self.points} pts, GD: {self.goal_difference}, W: {self.wins}, L: {self.losses}, T: {self.ties}"
+        return (f"{self.name}: {self.points} pts, GD: {self.goal_difference}, W: {self.wins}, L: {self.losses}, "
+                f"T: {self.ties}")
 
 # Define PostGameOptions to add more variety to the user interface
-class PostGameOptions:
+class PostGameOptions: # These will be the options the user has to affect their team.
     def __init__(self, user, team):
         self.user = user
         self.team = team
 
-    def display_options(self):
+    def display_options(self): # Shows the user the options they have.
         self.show_team_record()
         print(f"\n{self.user}, choose an option to influence {self.team.name}:")
         print("1. Change Tactics")
@@ -46,7 +50,7 @@ class PostGameOptions:
         print("3. Boost Team Morale")
         print("4. Don't Change Anything")
 
-    def execute_option(self, choice):
+    def execute_option(self, choice): # Implements the choice of the user.
         if choice == 1:
             self.change_tactics()
         elif choice == 2:
@@ -58,23 +62,23 @@ class PostGameOptions:
         else:
             print("Invalid choice. Please select again.")
 
-    def show_team_record(self):
+    def show_team_record(self): # Shows the user their current record in order to help their decision.
         print(f"Current record for {self.team.name}:")
-        print(f"Wins: {self.team.wins}, Losses: {self.team.losses}, Ties: {self.team.ties}, Points: {self.team.points}, Goal Difference: {self.team.goal_difference}")
+        print(f"Wins: {self.team.wins}, Losses: {self.team.losses}, Ties: {self.team.ties}")
         print(f"Current tactic is {self.team.current_tactic}")
         print(f"Current training focus is {self.team.training_focus}")
         print(f"Current morale booster is {self.team.morale_boost}")
 
-    def change_tactics(self):
+    def change_tactics(self): # Implements the tactic change option.
         print("You have chosen to change tactics.")
-        tactic_option = input("What tactic would you like to implement?: (offensive, balanced, defensive)")
+        tactic_option = input("What tactic would you like to use?: (offensive, balanced, defensive)")
         if tactic_option in ['offensive', 'balanced', 'defensive']:
             self.team.current_tactic = tactic_option
             print(f"Your team will play {tactic_option} next game!")
         else:
             print("You have not chosen a valid option, choose again")
 
-    def adjust_training(self):
+    def adjust_training(self): # Implements the training focus adjustment.
         print("You have chosen to adjust player training")
         practice_option = input("What would you like to change in practice?: (offense, defense)")
         if practice_option in ['offense', 'defense']:
@@ -83,7 +87,7 @@ class PostGameOptions:
         else:
             print("You have not chosen a valid option, choose again")
 
-    def boost_morale(self):
+    def boost_morale(self): # Implements the morale booster.
         print("You have chosen to boost team morale")
         morale_booster = input("How will you boost team morale?: (positive, negative)")
         if morale_booster in ['positive', 'negative']:
@@ -93,12 +97,12 @@ class PostGameOptions:
             print("You have not chosen a valid option, choose again")
 
     @staticmethod
-    def advance_schedule():
+    def advance_schedule(): # Advances to the next game with no effect on the actual score.
         print("You have chosen not to change anything! Moving on to next week")
 
 # This is the function used to simulate the regular season.
-# Every team will play every other team at least once for a total of 31 games per team.
-# Using the average min/ max of real-life games (being 0, 5) to generate a random score for the games.
+# Every team will play every other team at least once.
+# Top Range of goals in games tend to be 5
 def play_match(team1, team2, game_number=1):
 
     if game_number % 4 == 0: # Resets tactics after 4 games
@@ -127,8 +131,8 @@ def play_match(team1, team2, game_number=1):
         team2_goal_range = (0, 5)
 
     # Adjust goals based on training focus
-    if team1.training_focus == 'offense':
-        team1_goals = rn.randint(team1_goal_range[0], team1_goal_range[1] + 1) # Increase upper limit for offense
+    if team1.training_focus == 'offense': # Increase upper limit
+        team1_goals = rn.randint(team1_goal_range[0], team1_goal_range[1] + 1)
     else: # Default or defensive training focus
         team1_goals = rn.randint(*team1_goal_range)
 
@@ -181,7 +185,7 @@ def play_match(team1, team2, game_number=1):
 
     return team1_goals, team2_goals, winner
 
-# Penalty shootouts occur when both teams end regular time and extra time with the same amount of goals.
+# Penalty shootouts occur when both teams end extra time still tied.
 # Regular season games do not end in penalties as teams can tie in the regular season.
 def penalties(team1, team2):
     # Simulate penalty shootout
@@ -199,7 +203,7 @@ def penalties(team1, team2):
 # Extra time occurs when both teams end regular time with the same amount of goals.
 # Regular season games do not go into extra time as teams can tie in the regular season.
 # Extra time consists of 2 shorter halves therefore the max range has been lowered from 3 ot 1.
-# The likelihood of a goal being scored in extra time is lower due to the shorter time and team exhaustion.
+# The chance of a goal being scored in extra time is lower due to the shorter time and team exhaustion.
 def extra_time(team1, team2):
     # Simulate extra time and determine if penalties are needed
     team1_goals = rn.randint(0, 1)
@@ -215,7 +219,7 @@ def extra_time(team1, team2):
     else:
         return penalties(team1, team2)
 
-# Playoff matches can not end in a tie, therefore this will determine if teams need to go into extra time.
+# Playoff matches can not end in a tie, therefore this will determine if teams go into extra time.
 # Playoff games tend to be more intense and skilled therefore we lower the max range from 5 to 3.
 def playoff_match(team1, team2):
     # Simulate a playoff match with extra time and penalties
@@ -325,8 +329,7 @@ def main():
                                  quarter_finals_winner4]
 
         # Semi-finals.
-        # The trend of highest ranked team playing the lower ranked team does not apply here as the quarter-finals
-        # determine a bracket that shapes the playoffs in its entirety.
+        # The teams are organized by the outcome of the quarter-final games.
         print("\nSemi-Finals:")
         semi_final_winner1 = playoff_match(semi_finalists[0], semi_finalists[3])
         semi_final_winner2 = playoff_match(semi_finalists[1], semi_finalists[2])
@@ -360,9 +363,6 @@ def main():
         for team in promoted:
             teams.append(team)
             division_two_teams.remove(team)
-
-    # Future additions can add home games for the highest seeds and the final location taking place at any random city
-    # from the lists of teams that should not be repeated for at least 5 years to create variety.
 
         print("\nCongrats on your inaugural season!")
         print("Ready for next season?")
